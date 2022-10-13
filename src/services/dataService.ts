@@ -7,28 +7,42 @@ const URL = import.meta.env.VITE_URL;
 interface signUpProp {
     firstName: string;
     lastName: string;
-    userName: string;
+    username: string;
     password: string;
 }
 
-const signUpDataService = async ({ firstName, lastName, userName, password }: signUpProp) => {
+const signUpDataService = async ({ firstName, lastName, username, password }: signUpProp) => {
     const res = await axios.post(`${URL}/user/signup`, {
         firstName,
         lastName,
-        userName,
+        username,
         password
     })
-
     const { token, userId, hashedPassword } = await res.data
-
     cookies.set("token", token);
     cookies.set("userId", userId);
-    cookies.set("username", userName);
+    cookies.set("username", username);
     cookies.set("firstName", firstName);
     cookies.set("lastName", lastName);
     cookies.set("hashedPassword", hashedPassword);
 
+    return res.data
+}
+
+
+
+interface loginProp {
+    username: string;
+    password: string;
+}
+
+
+const loginDataService = async ({ username, password }: loginProp) => {
+    const res = await axios.post(`${URL}/user/login`, {
+        username,
+        password
+    })
     return res
 }
 
-export { signUpDataService }
+export { signUpDataService, loginDataService }

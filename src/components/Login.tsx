@@ -1,13 +1,16 @@
 import { useState } from "react";
+import { loginDataService } from "../services/dataService";
+import Cookies from "universal-cookie";
 
 interface formStateProp {
-  userName: string;
+  username: string;
   password: string;
 }
 
-const Login = () => {
+const Login = ({setIsAuth}: any) => {
+  const cookies = new Cookies();
   const [form, setForm] = useState<formStateProp>({
-    userName: "",
+    username: "",
     password: "",
   });
   const handleChange = (e: any) => {
@@ -18,8 +21,18 @@ const Login = () => {
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log(form);
     e.preventDefault();
+
+    loginDataService(form).then((res) => {
+      const { firstName, lastName, username, token, userId } = res.data;
+      cookies.set("token", token);
+      cookies.set("userId", userId);
+      cookies.set("username", username);
+      cookies.set("firstName", firstName);
+      cookies.set("lastName", lastName);
+      console.log(res.data);
+      setIsAuth(true);
+    });
   };
 
   return (
@@ -28,10 +41,10 @@ const Login = () => {
         <label>Login</label>
         <form onSubmit={handleSubmit}>
           <input
-            name="userName"
+            name="username"
             placeholder="Username"
             onChange={handleChange}
-            value={form.userName}
+            value={form.username}
           />
           <input
             name="password"

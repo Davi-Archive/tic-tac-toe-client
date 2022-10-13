@@ -5,16 +5,17 @@ import Cookies from "universal-cookie";
 interface formStateProp {
   firstName: string;
   lastName: string;
-  userName: string;
+  username: string;
   password: string;
 }
 
-const SingUp = () => {
-  const cookies = new Cookies();
+
+
+const SingUp = ({setIsAuth}:any) => {
   const [form, setForm] = useState<formStateProp>({
     firstName: "",
     lastName: "",
-    userName: "",
+    username: "",
     password: "",
   });
   const handleChange = (e: any) => {
@@ -25,7 +26,10 @@ const SingUp = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    signUpDataService(form).then((data) => console.log(data));
+    signUpDataService(form).then((data) => {
+      setIsAuth(true);
+      console.log(data);
+    });
     e.preventDefault();
   };
 
@@ -47,10 +51,10 @@ const SingUp = () => {
             value={form.lastName}
           />
           <input
-            name="userName"
+            name="username"
             placeholder="Username"
             onChange={handleChange}
-            value={form.userName}
+            value={form.username}
           />
           <input
             name="password"
