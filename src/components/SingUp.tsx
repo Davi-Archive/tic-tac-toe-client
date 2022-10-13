@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { signUpDataService } from "../services/dataService";
+import Cookies from "universal-cookie";
 
 interface formStateProp {
   firstName: string;
@@ -8,6 +10,7 @@ interface formStateProp {
 }
 
 const SingUp = () => {
+  const cookies = new Cookies();
   const [form, setForm] = useState<formStateProp>({
     firstName: "",
     lastName: "",
@@ -21,8 +24,8 @@ const SingUp = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    console.log(form);
+  const handleSubmit = async (e: React.FormEvent) => {
+    signUpDataService(form).then((data) => console.log(data));
     e.preventDefault();
   };
 
