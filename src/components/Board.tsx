@@ -1,14 +1,19 @@
-import { useState } from "react";
-import { Square } from "./";
+import { useEffect, useState } from "react";
+import { Square, winningPatterns } from "./";
 import { useChannelStateContext, useChatContext } from "stream-chat-react";
 
-const Board = () => {
+const Board = ({ result, setResult }: any) => {
   const [board, setBoard] = useState(["", "", "", "", "", "", "", "", ""]);
   const [turn, setTurn] = useState("X");
   const [player, setPlayer] = useState("X");
 
   const { channel } = useChannelStateContext();
-  const {client} = useChatContext()
+  const { client } = useChatContext();
+
+  useEffect(() => {
+    checkWin();
+    checkIfTie();
+  }, [board]);
 
   const chooseSquare = async (square: any) => {
     if (turn === player && board[square] === "") {
@@ -28,8 +33,8 @@ const Board = () => {
     }
   };
 
-  channel.on((event:any) => {
-    if (event.type == "game-move" && event.user.id !== client.userID) {
+  channel.on((event: any) => {
+    if (event.type === "game-move" && event.user.id !== client.userID) {
       const currentPlayer = event.data.player === "X" ? "O" : "X";
       setPlayer(currentPlayer);
       setTurn(currentPlayer);
@@ -43,6 +48,36 @@ const Board = () => {
       );
     }
   });
+
+  const checkWin = () => {
+    winningPatterns.forEach((currPattern) => {
+      const firstPlayer = board[currPattern[0]];
+      if (firstPlayer == "") return;
+      let foundWinningPattern = true;
+      currPattern.forEach((idx) => {
+        if (board[idx] != firstPlayer) {
+          foundWinningPattern = false;
+        }
+      });
+
+      if (foundWinningPattern) {
+        alert("Winner " + board[currPattern[0]]);
+        setResult({ winner: board[currPattern[0]], state: "Won" });
+      }
+    });
+  };
+
+  const checkIfTie = () => {
+    let filled = true;
+    board.forEach((square) => {
+      if (square == "") filled = false;
+    });
+    if (filled) {
+      alert("Game tied");
+      setResult({ winner: "none", state: "tie" });
+    }
+  };
+
   return (
     <section className="board">
       <div className="row">
