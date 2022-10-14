@@ -6,5 +6,7 @@ import Board from "./Board";
 import Square from "./Square";
 import { winningPatterns } from './winningPatterns'
 import CustomInput from "./CustomInput";
+import Register from "./Register";
 
-export { winningPatterns, CustomInput, Square, Board, SingUp, Login, Game, JoinGame }
+
+export { winningPatterns, Register, CustomInput, Square, Board, SingUp, Login, Game, JoinGame }

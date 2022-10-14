@@ -1,5 +1,5 @@
 import Cookies from "universal-cookie";
-import { SingUp, Login, Game, JoinGame } from "./components";
+import { SingUp, Login, Game, JoinGame, Register } from "./components";
 import { StreamChat } from "stream-chat";
 import { useState } from "react";
 import { Chat } from "stream-chat-react";
@@ -11,6 +11,7 @@ const cookies = new Cookies();
 
 const App = () => {
   const token = cookies.get("token");
+  const [gotUser, setGotUser] = useState<boolean>(true);
   const [isAuth, setIsAuth] = useState<boolean>(false);
   const client = StreamChat.getInstance(import.meta.env.VITE_API_KEY);
   if (token) {
@@ -54,8 +55,16 @@ const App = () => {
       )}
       {!isAuth && (
         <>
-          <SingUp setIsAuth={setIsAuth} />
-          <Login setIsAuth={setIsAuth} />
+          {!gotUser && (
+            <SingUp setIsAuth={setIsAuth}>
+              <Register gotUser={gotUser} setGotUser={setGotUser} />
+            </SingUp>
+          )}
+          {gotUser && (
+            <Login setIsAuth={setIsAuth}>
+              <Register gotUser={gotUser} setGotUser={setGotUser} />
+            </Login>
+          )}
         </>
       )}
     </div>

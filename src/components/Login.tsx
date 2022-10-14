@@ -3,13 +3,14 @@ import { loginDataService } from "../services/dataService";
 import Cookies from "universal-cookie";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import Register from "./Register";
 
 interface formStateProp {
   username: string;
   password: string;
 }
 
-const Login = ({ setIsAuth }: any) => {
+const Login = ({ setIsAuth, children }: any) => {
   const cookies = new Cookies();
   const [form, setForm] = useState<formStateProp>({
     username: "",
@@ -41,7 +42,7 @@ const Login = ({ setIsAuth }: any) => {
     <>
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
+          <Form.Label>Username</Form.Label>
           <Form.Control
             name="username"
             type="text"
@@ -49,9 +50,6 @@ const Login = ({ setIsAuth }: any) => {
             onChange={handleChange}
             value={form.username}
           />
-          <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -64,12 +62,19 @@ const Login = ({ setIsAuth }: any) => {
             value={form.password}
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Check me out" />
-        </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button
+          variant="primary"
+          type="submit"
+          style={{
+            display: "flex",
+            width: "100%",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           Submit
         </Button>
+        <Form.Group style={{margin: '20px'}}>{children}</Form.Group>
       </Form>
     </>
   );
