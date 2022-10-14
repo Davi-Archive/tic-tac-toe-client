@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { loginDataService } from "../services/dataService";
 import Cookies from "universal-cookie";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
 interface formStateProp {
   username: string;
   password: string;
 }
 
-const Login = ({setIsAuth}: any) => {
+const Login = ({ setIsAuth }: any) => {
   const cookies = new Cookies();
   const [form, setForm] = useState<formStateProp>({
     username: "",
@@ -37,26 +39,38 @@ const Login = ({setIsAuth}: any) => {
 
   return (
     <>
-      <div className="Login">
-        <label>Login</label>
-        <form onSubmit={handleSubmit}>
-          <input
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control
             name="username"
-            placeholder="Username"
+            type="text"
+            placeholder="Enter username"
             onChange={handleChange}
             value={form.username}
           />
-          <input
+          <Form.Text className="text-muted">
+            We'll never share your email with anyone else.
+          </Form.Text>
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
             name="password"
+            type="password"
             placeholder="Password"
             onChange={handleChange}
             value={form.password}
-            type="password"
           />
-          <br />
-          <button type="submit">Login</button>
-        </form>
-      </div>
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicCheckbox">
+          <Form.Check type="checkbox" label="Check me out" />
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
+      </Form>
     </>
   );
 };

@@ -4,6 +4,7 @@ import { StreamChat } from "stream-chat";
 import { useState } from "react";
 import { Chat } from "stream-chat-react";
 
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.scss";
 
 const cookies = new Cookies();
