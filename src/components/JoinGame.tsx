@@ -12,8 +12,8 @@ const JoinGame = () => {
     if (response.users.length === 0) {
       return alert("user not found");
     }
-
-    const newChannel = await client.channel("messaging", {
+    // @ts-ignore
+    const newChannel = client.channel("messaging", {
       members: [client.userID, response.users[0].id],
     });
 
