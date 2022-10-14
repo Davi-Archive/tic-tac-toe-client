@@ -19,6 +19,7 @@ const Board = ({ result, setResult }: any) => {
     if (turn === player && board[square] === "") {
       setTurn(player === "X" ? "O" : "X");
       await channel.sendEvent({
+        // @ts-ignore
         type: "game-move",
         data: { square, player },
       });
