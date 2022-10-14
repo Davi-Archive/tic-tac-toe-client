@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useChatContext, Channel } from "stream-chat-react";
-import { Game } from "./";
-import { CustomInput } from "./";
+import Button from "react-bootstrap/Button";
+import { Game, CustomInput } from "./";
 
-const JoinGame = () => {
+const JoinGame = ({children}:any) => {
   const [rival, setRival] = useState<string>("");
   const [channel, setChannel] = useState<any>(null);
   const { client } = useChatContext();
@@ -36,7 +36,10 @@ const JoinGame = () => {
               setRival(e.target.value)
             }
           />
-          <button onClick={createChannel}> Join/Start Game</button>
+          <br/>
+          <br/>
+          <Button onClick={createChannel} variant="warning">Join/Start Game</Button>
+          {children}
         </section>
       )}
     </>

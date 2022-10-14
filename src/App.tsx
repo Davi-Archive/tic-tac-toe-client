@@ -3,6 +3,7 @@ import { SingUp, Login, Game, JoinGame, Register } from "./components";
 import { StreamChat } from "stream-chat";
 import { useState } from "react";
 import { Chat } from "stream-chat-react";
+import Button from "react-bootstrap/Button";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.scss";
@@ -48,8 +49,11 @@ const App = () => {
       {isAuth && (
         <>
           <Chat client={client}>
-            <JoinGame />
-            <button onClick={logOut}>Log Out</button>
+            <JoinGame>
+              <Button variant="danger" onClick={logOut}>
+                Log Out
+              </Button>
+            </JoinGame>
           </Chat>
         </>
       )}
